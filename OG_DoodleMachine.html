@@ -43,7 +43,8 @@
 			x = e.offsetX;
 			y = e.offsetY;
 
-			//if the radius is half the width start shrinking
+			//first toggle the bools (smaller and more)
+			//if the radius is half the width set smaller to true
 			if (radius >= width / 2) {
 				smaller = true;
 			}
@@ -59,14 +60,16 @@
 				more = true;
 			}
 
+			// increment radius and color_num based on our previous toggling
+			//if smaller is true the radius shrinks
 			if (smaller == true) {
 				radius -= 1;
 			}
-			
 			else {
 				radius += 1;
 			}
 
+			//if more is true the color_num increases
 			if (more == true) {
 				color_num++;
 			} 
@@ -74,30 +77,20 @@
 				color_num--;
 			}
 
-
-	
+			//convert the incremented color_num to its hexidecimal color_code
 			color_code = color_num.toString(16);
 
+			//call a functino, give it the canvas context and some incremented variables
 			drawDot(context, x, y, radius, color_code)
 			
 		});
 
-
-		function drawLine(context, x1, y1, x2, y2) {
-			context.beginPath();
-			context.lineWidth = 1;
-			context.strokeStyle = "#0";
-			context.moveTo(x1, y1);
-			context.lineTo(x2, y2);
-			context.stroke();
-			context.closePath();
-		}
-
+		//talks to the canvas
 		function drawDot(context, x1, y1, radius, color_code) {
 			context.beginPath();
 			context.lineWidth = 2;
-			context.strokeStyle = "#" + color_code;
-			context.arc(x1, y1, radius, 0, 2 * Math.PI);
+			context.strokeStyle = "#" + color_code; //here's the previously incremented color_code
+			context.arc(x1, y1, radius, 0, 2 * Math.PI); //here's the (x, y) coordinates and the previously incremented radius
 			context.stroke();
 			context.closePath();
 		}
