@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		#doodles {
+			border: 1px outset black;
+		}
+	</style>
+</head>
+<body>
+
+	<!-- Make a canvas and give it a name-->
+	<canvas id="doodles"></canvas>
+
+	<script>
+		const doodles = document.getElementById('doodles');	
+		const context = doodles.getContext('2d');
+
+		//Set the width and height of the canvas
+		let width = window.innerWidth;
+		let height = window.innerHeight;
+
+		doodles.width = width;
+		doodles.height = height;
+
+		//Smaller tells the shape if it's growing or shrinking, more tells color_num to go up or down
+		let smaller = false;
+		let more = true;
+
+		//color_num is the decimal representation of some color code, radius is radius
+		let color_num = 0;
+		let radius = 1;
+
+		//Starting position for the pointer
+		let x = 0;
+		let y = 0;
+
+		//Shape switching experimentation zone...
+		//I want to try an array of functions.
+		var functinos = [
+			drawDot,
+			squareDot,
+			triangle
+		]
+
+		let next_functino = 2;
+
+		//when the mouse moves over the canvas
+		doodles.addEventListener('mousemove', e => {
+
+			//e.offset guves chnage in mouse position
+			x = e.offsetX;
+			y = e.offsetY;
+
+			//first toggle the bools (smaller and more)
+			//don't let shapes get too big
+			if (radius >= width / 2 || radius >= height / 2) {
+				smaller = true;
+			}
+
+			//let's make a radius = 0 the criteria for changing shapes
+			if (radius == 0) {
+				smaller = false;
+				next_functino++;
+
+				if (next_functino == functinos.length) {
+					next_functino = 0;
+				}
+			}
+
+			//if the decimal representation of the color code is greater than FFFFFF 
+			if (color_num == 16777215) {
+				more = false;
+			}
+			if (color_num == 0) {
+				more = true;
+			}
+
+			// increment radius and color_num based on our previous toggling
+			//if smaller is true the radius shrinks
+			if (smaller == true) {
+				radius -= 1;
+			}
+			else {
+				radius += 1;
+			}
+
+			//if more is true the color_num increases
+			if (more == true) {
+				color_num++;
+			} 
+			else {
+				color_num--;
+			}
+
+			//convert the incremented color_num to its hexidecimal color_code
+			color_code = color_num.toString(16);
+
+			//call a functino, give it the canvas context and some incremented variables
+			functinos[next_functino](context, x, y, radius, color_code);
+			
+		});
+
+		//talks to the canvas
+		function drawDot(context, x1, y1, radius, color_code) {
+			context.beginPath();
+			context.lineWidth = 2;
+			context.strokeStyle = "#" + color_code; //here's the previously incremented color_code
+			context.arc(x1, y1, radius, 0, 2 * Math.PI); //here's the (x, y) coordinates and the previously incremented radius
+			context.stroke();
+			context.closePath();
+		}
+
+		function squareDot(context, x1, y1, radius, color_code) {
+			context.beginPath();
+			context.lineWidth = 2;
+			context.strokeStyle = "#" + color_code;
+
+			//built-in rectangle function with some arithmetic to keep the pointer centered
+			context.rect(x1 - radius, y1 - radius, radius * 2, radius * 2);
+
+			context.stroke();
+			context.closePath();
+		}
+
+		function triangle(context, x1, y1, radius, color_code) {
+			context.beginPath();
+			context.lineWidth = 2;
+			context.strokeStyle = "#" + color_code;
+			
+			//pick a "start drawing point"
+			context.moveTo(x1, y1 - radius);
+			
+			//draw each side of a triangle
+			context.lineTo(x1 - radius, y1 + radius);
+			context.lineTo(x1 + radius, y1 + radius);
+			context.lineTo(x1, y1 - radius);
+			
+			context.stroke();
+			context.closePath();
+		}
+	</script>
+
+</body>
+</html>
