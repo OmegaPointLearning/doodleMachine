@@ -153,8 +153,8 @@
 			doodles.addEventListener("touchmove", e => {
 
 			//we want chnage in mouse psosition
-			x = e.targetTouches[0].pageX - doodles.clientx;
-			y = e.targetTouches[0].pageY - doodles.clienty;
+			x = e.changedTouches[0].pageX;
+			y = e.changedTouches[0].pageY;
 
 			//turn down transparency until stuff isn't see-thru
 			if (global_alpha < 1) {
