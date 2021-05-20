@@ -147,14 +147,14 @@
 			try{ document.createEvent("TouchEvent"); return true; }
 			catch(e){ return false}
 		}
-
+		
 		//touchscreen event listener
 		if (isTouchScreen()) {
 			doodles.addEventListener("touchmove", e => {
 
-			//e.offset guves chnage in mouse position
-			x = touch.clientX;
-			y = touch.ClientY;
+			//we want chnage in mouse psosition
+			x = e.targetTouches[0].pageX - doodles.clientx;
+			y = e.targetTouches[0].pageY - doodles.clienty;
 
 			//turn down transparency until stuff isn't see-thru
 			if (global_alpha < 1) {
@@ -167,6 +167,7 @@
 
 			})
 		}
+		
 		//timer makes shit just go when mouse isn't moving
 		var derp = setInterval(function() {
 			incrementator();
