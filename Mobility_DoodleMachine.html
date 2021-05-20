@@ -154,9 +154,6 @@
 			doodles.height -= .25 * height;
 			doodles.addEventListener("touchmove", e => {
 
-			//many mobile brousers use touch events for things like refresh page... maybe we can stop them?
-			e.preventDefault();
-
 			//changedTouches is like offset i suppose...
 			x = e.changedTouches[0].pageX;
 			y = e.changedTouches[0].pageY;
