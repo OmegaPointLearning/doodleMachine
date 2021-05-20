@@ -153,8 +153,8 @@
 			doodles.addEventListener("touchmove", e => {
 
 			//e.offset guves chnage in mouse position
-			x = e.offsetX;
-			y = e.offsetY;
+			x = touch.clientX;
+			y = touch.ClientY;
 
 			//turn down transparency until stuff isn't see-thru
 			if (global_alpha < 1) {
