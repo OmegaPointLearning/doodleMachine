@@ -139,10 +139,8 @@
 			context.stroke();
 			context.closePath();
 		}
-
-		//I used stackoverflow for this part because window size didn't seem like the best metric for discovering mobile functionality:
-		//https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
-		//not sure if detecting mobile functionality is even helpful
+		
+		//Let's detect any touchscreens...
 		function isTouchScreen() {
 			try{ document.createEvent("TouchEvent"); return true; }
 			catch(e){ return false}
@@ -156,13 +154,18 @@
 			doodles.height -= .25 * height;
 			doodles.addEventListener("touchmove", e => {
 
+			//many mobile brousers use touch events for things like refresh page... maybe we can stop them?
+			e.preventDefault();
+
 			//changedTouches is like offset i suppose...
 			x = e.changedTouches[0].pageX;
 			y = e.changedTouches[0].pageY;
 
 			//turn up the alpha until stuff isn't see-thru
 			if (global_alpha < 1) {
-				global_alpha += 0.009;
+				
+				//touch movement isn't as much as mouse movement, needs more alpha
+				global_alpha += 0.01;
 				context.globalAlpha = global_alpha;
 			};
 			
