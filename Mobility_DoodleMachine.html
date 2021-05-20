@@ -148,21 +148,25 @@
 			catch(e){ return false}
 		}
 		
-		//touchscreen event listener
+		//if there's a touchscreen involved
 		if (isTouchScreen()) {
+
+			//make the canvas a little smaller so it definitely fits the screen
+			doodles.width -= .15 * width;
+			doodles.height -= .2 * height;
 			doodles.addEventListener("touchmove", e => {
 
-			//we want chnage in mouse psosition
+			//changedTouches is like offset i suppose...
 			x = e.changedTouches[0].pageX;
 			y = e.changedTouches[0].pageY;
 
-			//turn down transparency until stuff isn't see-thru
+			//turn up the alpha until stuff isn't see-thru
 			if (global_alpha < 1) {
-				global_alpha += 0.007;
+				global_alpha += 0.009;
 				context.globalAlpha = global_alpha;
 			};
 			
-			//since it's already changing size pretty quick let's not call the incrementor with every mouse movement
+			//since it's already changing size pretty quick let's not call the incrementor with every touch movement
 			functinos[next_functino](context, x, y, radius, color_code);
 
 			})
