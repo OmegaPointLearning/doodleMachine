@@ -145,7 +145,7 @@
 			
 			//i think the touch event increases the global alpha, but since this one isn't
 			//triggered by the user it just makes a triangle in the corner when oppened 
-			global_alpha = 0;
+			context.globalAlpha = 0;
 			
 			try{ document.createEvent("TouchEvent"); 
 			return true; }
