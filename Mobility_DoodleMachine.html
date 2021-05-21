@@ -140,11 +140,16 @@
 			context.closePath();
 		}
 		
-		//Let's detect any touchscreens...
+		//let's detect a touchscreen!
 		function isTouchScreen() {
 			try{ document.createEvent("TouchEvent"); return true; }
-			catch(e){ return false}
+
+			//i think the touch event increases the global alpha, but since this one isn't
+			//triggered by the user it just makes a triangle in the corner when oppened 
+			global_alpha = 0;
+			catch(e){ return false }
 		}
+
 		
 		//if there's a touchscreen involved
 		if (isTouchScreen()) {
