@@ -180,11 +180,13 @@
 
 			})
 
-			//(same as pc timer for now)
+			//(maybe e.changedTouches can prevent the corner triangle)
 			var derp = setInterval(function() {
-				incrementator();
-				functinos[next_functino](context, x, y, radius, color_code);
-
+				if (e.changedTouches[] != []) {
+					incrementator();
+					functinos[next_functino](context, x, y, radius, color_code);
+				}
+				
 				//turn up transparency when mouse isn't moving
 				if (global_alpha > 0) {
 					global_alpha -= 0.003;
