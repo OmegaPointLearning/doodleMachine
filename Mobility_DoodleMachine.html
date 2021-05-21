@@ -152,8 +152,8 @@
 
 		//if there's a touchscreen involved use touch event and mobiletimer:
 		if (isTouchScreen()) {	
-			global_alpha = 0;
-			context.globalAlpha = 0;
+			var changes = TouchEvent.changedTouches;
+			console.log(changes);
 
 			//make the canvas a little smaller so it definitely fits the screen
 			doodles.width -= .25 * width;
@@ -180,13 +180,13 @@
 
 			})
 
-			//(maybe e.changedTouches can prevent the corner triangle)
+			//(same as pc timer for now)
 			var derp = setInterval(function() {
-				if (e.changedTouches[] != []) {
+				if (changes[0]) {
 					incrementator();
 					functinos[next_functino](context, x, y, radius, color_code);
 				}
-				
+
 				//turn up transparency when mouse isn't moving
 				if (global_alpha > 0) {
 					global_alpha -= 0.003;
