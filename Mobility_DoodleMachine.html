@@ -157,7 +157,10 @@
 			//make the canvas a little smaller so it definitely fits the screen
 			doodles.width -= .25 * width;
 			doodles.height -= .25 * height;
-			doodles.addEventListener("touchmove", e => {
+		}
+		
+		//moved outside of if statement
+		doodles.addEventListener("touchmove", e => {
 
 			//changedTouches is like offset i suppose...
 			x = e.changedTouches[0].pageX;
@@ -175,7 +178,6 @@
 			functinos[next_functino](context, x, y, radius, color_code);
 
 			})
-		}
 		
 		//timer makes shit just go when mouse isn't moving
 		var derp = setInterval(function() {
