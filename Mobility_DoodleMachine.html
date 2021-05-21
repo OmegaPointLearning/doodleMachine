@@ -139,28 +139,31 @@
 			context.stroke();
 			context.closePath();
 		}
-		
-		//let's detect a touchscreen
+
+		//let's detect a touchscreen!
 		function isTouchScreen() {
 			try { 
-				context.globalAlpha = 0.0;
-				document.createEvent("TouchEvent"); 
+				document.createEvent("TouchEvent");
 				return true; 
 			}
 
 			catch(e){ return false }
 		}
-		
-		//if there's a touchscreen involved
-		if (isTouchScreen()) {
+
+		//if there's a touchscreen involved use touch event and mobiletimer:
+		if (isTouchScreen()) {	
+			global_alpha = 0;
+			context.globalAlpha = 0;
 
 			//make the canvas a little smaller so it definitely fits the screen
 			doodles.width -= .25 * width;
 			doodles.height -= .25 * height;
-		}
-		
-		//moved outside of if statement
-		doodles.addEventListener("touchmove", e => {
+
+			//when the screen is touched:
+			doodles.addEventListener("touchmove", e => {
+			
+			//my gut tells me this is good...
+			e.preventDefault();
 
 			//changedTouches is like offset i suppose...
 			x = e.changedTouches[0].pageX;
@@ -168,8 +171,6 @@
 
 			//turn up the alpha until stuff isn't see-thru
 			if (global_alpha < 1) {
-				
-				//touch movement isn't as much as mouse movement, needs more alpha
 				global_alpha += 0.01;
 				context.globalAlpha = global_alpha;
 			};
@@ -178,36 +179,52 @@
 			functinos[next_functino](context, x, y, radius, color_code);
 
 			})
-		
-		//timer makes shit just go when mouse isn't moving
-		var derp = setInterval(function() {
-			incrementator();
-			functinos[next_functino](context, x, y, radius, color_code);
 
-			//turn up transparency when mouse isn't moving
-			if (global_alpha > 0) {
-				global_alpha -= 0.003;
-				context.globalAlpha = global_alpha;
-			};
-		}, 10);
+			//(same as pc timer for now)
+			var derp = setInterval(function() {
+				incrementator();
+				functinos[next_functino](context, x, y, radius, color_code);
 
-		//new and improved mouse moving event listener:
-		doodles.addEventListener('mousemove', e => {
-			//e.offset guves chnage in mouse position
-			x = e.offsetX;
-			y = e.offsetY;
+				//turn up transparency when mouse isn't moving
+				if (global_alpha > 0) {
+					global_alpha -= 0.003;
+					context.globalAlpha = global_alpha;
+				};
+			}, 10);
 
-			//turn down transparency until stuff isn't see-thru
-			if (global_alpha < 1) {
-				global_alpha += 0.007;
-				context.globalAlpha = global_alpha;
-			};
-			
-			//since it's already changing size pretty quick let's not call the incrementor with every mouse movement
-			functinos[next_functino](context, x, y, radius, color_code);
+		} 
 
-		});
+		else {
 
+			//timer makes shit just go when mouse isn't moving
+			var derp = setInterval(function() {
+				incrementator();
+				functinos[next_functino](context, x, y, radius, color_code);
+
+				//turn up transparency when mouse isn't moving
+				if (global_alpha > 0) {
+					global_alpha -= 0.003;
+					context.globalAlpha = global_alpha;
+				};
+			}, 10);
+
+			//new and improved mouse moving event listener:
+			doodles.addEventListener('mousemove', e => {
+				//e.offset guves chnage in mouse position
+				x = e.offsetX;
+				y = e.offsetY;
+
+				//turn down transparency until stuff isn't see-thru
+				if (global_alpha < 1) {
+					global_alpha += 0.007;
+					context.globalAlpha = global_alpha;
+				};
+				
+				//since it's already changing size pretty quick let's not call the incrementor with every mouse movement
+				functinos[next_functino](context, x, y, radius, color_code);
+
+			});
+		};
 	</script>
 
 </body>
