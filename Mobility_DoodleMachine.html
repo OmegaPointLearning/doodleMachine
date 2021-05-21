@@ -184,7 +184,7 @@
 
 			//(same as pc timer for now)
 			var derp = setInterval(function() {
-				if (changes[0]) {
+				if (changes.length > 0) {
 					incrementator();
 					functinos[next_functino](context, x, y, radius, color_code);
 				}
