@@ -152,7 +152,7 @@
 
 		//if there's a touchscreen involved use touch event and mobiletimer:
 		if (isTouchScreen()) {	
-			var changes = TouchEvent.changedTouches;
+			var changes = []
 			console.log(changes);
 
 			//make the canvas a little smaller so it definitely fits the screen
@@ -161,6 +161,8 @@
 
 			//when the screen is touched:
 			doodles.addEventListener("touchmove", e => {
+
+			changes = e.changedTouches;
 			
 			//my gut tells me this is good...
 			e.preventDefault();
